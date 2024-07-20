@@ -1,0 +1,17 @@
+{
+	"name": "me-ws",
+	"version": "1.0.0",
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "tsc"
+	},
+	"dependencies": {
+		"ws": "^8.18.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20.14.11",
+		"@types/ws": "^8.5.11",
+		"prettier": "^3.3.3",
+		"typescript": "^5.5.3"
+	}
+}
