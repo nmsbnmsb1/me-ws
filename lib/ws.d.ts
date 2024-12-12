@@ -1,5 +1,5 @@
 import WebSocketClient from 'ws';
-export interface IWSOptions {
+export interface WSOptions {
     wsOptions?: any;
     reconnectDelayMS: number;
     sendConcurrency: number;
@@ -18,12 +18,12 @@ export interface IWSOptions {
         [name: string]: any;
     };
 }
-export type IWSCallBackMatch = (data: any) => boolean;
-export type IWSCallBack = (data: any) => any;
+export type WSCallBackMatch = (data: any) => boolean;
+export type WSCallBack = (data: any) => any;
 export declare class WS {
     protected ws: WebSocketClient;
     protected url: string;
-    protected options: IWSOptions;
+    protected options: WSOptions;
     protected status: {
         name: string;
         connecting: {};
@@ -36,16 +36,16 @@ export declare class WS {
     };
     protected lns: {
         [lnid: string]: {
-            m: IWSCallBackMatch;
-            cb: IWSCallBack;
+            m: WSCallBackMatch;
+            cb: WSCallBack;
         };
     };
     protected queue: {
         waits: {
             payload: any;
             cb?: {
-                m: IWSCallBackMatch;
-                cb?: IWSCallBack;
+                m: WSCallBackMatch;
+                cb?: WSCallBack;
             };
             defer?: any;
         }[];
@@ -55,12 +55,12 @@ export declare class WS {
         [payload: string]: {
             subscribePayload: any;
             subscribeCb: {
-                m: IWSCallBackMatch;
-                cb?: IWSCallBack;
+                m: WSCallBackMatch;
+                cb?: WSCallBack;
             };
         };
     };
-    constructor(options: IWSOptions);
+    constructor(options: WSOptions);
     protected log(evtName: string, msg?: any): void;
     isIdle(): boolean;
     isConnected(): boolean;
@@ -72,24 +72,24 @@ export declare class WS {
     close(): void;
     terminate(): void;
     listen(lnid: string, cb: {
-        m: IWSCallBackMatch;
-        cb: IWSCallBack;
+        m: WSCallBackMatch;
+        cb: WSCallBack;
     }): void;
     unlisten(lnid: string): void;
     send(payload: any, cb?: {
-        m: IWSCallBackMatch;
-        cb?: IWSCallBack;
+        m: WSCallBackMatch;
+        cb?: WSCallBack;
     }): Promise<any>;
     protected doQueue(): void;
     subscribe(subscribePayload: any, subscribeCb: {
-        m: IWSCallBackMatch;
-        cb?: IWSCallBack;
+        m: WSCallBackMatch;
+        cb?: WSCallBack;
     }, lnid: string, lncb: {
-        m: IWSCallBackMatch;
-        cb: IWSCallBack;
+        m: WSCallBackMatch;
+        cb: WSCallBack;
     }): Promise<any>;
     unsubscribe(subscribePayload: any, unsubscribePayload: any, unsubscribeCb: {
-        m: IWSCallBackMatch;
-        cb?: IWSCallBack;
+        m: WSCallBackMatch;
+        cb?: WSCallBack;
     }, lnid: string): Promise<any>;
 }

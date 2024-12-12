@@ -2,7 +2,7 @@ import WebSocketClient from 'ws';
 import * as Utils from './utils';
 
 //选项
-export interface IWSOptions {
+export interface WSOptions {
 	wsOptions?: any;
 	reconnectDelayMS: number;
 	sendConcurrency: number;
@@ -17,24 +17,24 @@ export interface IWSOptions {
 	pong?: (ws: WS) => any;
 	msgParser?: (msg: any) => undefined | Error | { [name: string]: any };
 }
-export type IWSCallBackMatch = (data: any) => boolean;
-export type IWSCallBack = (data: any) => any;
+export type WSCallBackMatch = (data: any) => boolean;
+export type WSCallBack = (data: any) => any;
 
 export class WS {
 	protected ws: WebSocketClient;
 	protected url: string;
-	protected options: IWSOptions;
+	protected options: WSOptions;
 	protected status: { name: string; connecting: {}; connected: { pingT?: any }; waitForconnect: { delayT?: any } };
-	protected lns: { [lnid: string]: { m: IWSCallBackMatch; cb: IWSCallBack } };
+	protected lns: { [lnid: string]: { m: WSCallBackMatch; cb: WSCallBack } };
 	protected queue: {
-		waits: { payload: any; cb?: { m: IWSCallBackMatch; cb?: IWSCallBack }; defer?: any }[];
+		waits: { payload: any; cb?: { m: WSCallBackMatch; cb?: WSCallBack }; defer?: any }[];
 		sending: any[];
 	};
 	protected subscribeStore: {
-		[payload: string]: { subscribePayload: any; subscribeCb: { m: IWSCallBackMatch; cb?: IWSCallBack } };
+		[payload: string]: { subscribePayload: any; subscribeCb: { m: WSCallBackMatch; cb?: WSCallBack } };
 	};
 
-	constructor(options: IWSOptions) {
+	constructor(options: WSOptions) {
 		this.options = options;
 		this.status = { name: 'idle', connecting: {}, connected: {}, waitForconnect: {} };
 		this.lns = {};
@@ -228,14 +228,14 @@ export class WS {
 		this.subscribeStore = {};
 	}
 	//listen
-	public listen(lnid: string, cb: { m: IWSCallBackMatch; cb: IWSCallBack }) {
+	public listen(lnid: string, cb: { m: WSCallBackMatch; cb: WSCallBack }) {
 		this.lns[lnid] = cb;
 	}
 	public unlisten(lnid: string) {
 		delete this.lns[lnid];
 	}
 	//send
-	public async send(payload: any, cb?: { m: IWSCallBackMatch; cb?: IWSCallBack }) {
+	public async send(payload: any, cb?: { m: WSCallBackMatch; cb?: WSCallBack }) {
 		//添加到队列
 		let defer: any;
 		if (!cb) {
@@ -267,9 +267,9 @@ export class WS {
 	//subscribe
 	public async subscribe(
 		subscribePayload: any,
-		subscribeCb: { m: IWSCallBackMatch; cb?: IWSCallBack },
+		subscribeCb: { m: WSCallBackMatch; cb?: WSCallBack },
 		lnid: string,
-		lncb: { m: IWSCallBackMatch; cb: IWSCallBack }
+		lncb: { m: WSCallBackMatch; cb: WSCallBack }
 	) {
 		//缓存订阅命令
 		let payloadString = JSON.stringify(subscribePayload);
@@ -284,7 +284,7 @@ export class WS {
 	public async unsubscribe(
 		subscribePayload: any,
 		unsubscribePayload: any,
-		unsubscribeCb: { m: IWSCallBackMatch; cb?: IWSCallBack },
+		unsubscribeCb: { m: WSCallBackMatch; cb?: WSCallBack },
 		lnid: string
 	) {
 		delete this.subscribeStore[JSON.stringify(subscribePayload)];
