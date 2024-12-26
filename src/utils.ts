@@ -1,10 +1,10 @@
 export function defer() {
-    const defer: any = {};
-    defer.promise = new Promise((resolve, reject) => {
-        defer.resolve = resolve;
-        defer.reject = reject;
-    });
-    return defer as { promise: any, resolve: any, reject: any; };
+	const defer: any = {};
+	defer.promise = new Promise((resolve, reject) => {
+		defer.resolve = resolve;
+		defer.reject = reject;
+	});
+	return defer as { promise: any; resolve: any; reject: any };
 }
 
 // export function getValueByPath(data: any, path: string) {

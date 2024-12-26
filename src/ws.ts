@@ -24,6 +24,7 @@ export class WS {
 	protected ws: WebSocketClient;
 	protected url: string;
 	protected options: WSOptions;
+	// biome-ignore lint/complexity/noBannedTypes:
 	protected status: { name: string; connecting: {}; connected: { pingT?: any }; waitForconnect: { delayT?: any } };
 	protected lns: { [lnid: string]: { m: WSCallBackMatch; cb: WSCallBack } };
 	protected queue: {
@@ -138,8 +139,8 @@ export class WS {
 				this.queue.sending = this.queue.sending.filter(({ cb, defer }) => {
 					if (!cb.m(data)) return true;
 					//
-					cb.cb && cb.cb(data);
-					defer && defer[!isError ? 'resolve' : 'reject'](data);
+					cb.cb?.(data);
+					defer?.[!isError ? 'resolve' : 'reject'](data);
 					return false;
 				});
 				this.doQueue();
@@ -215,12 +216,12 @@ export class WS {
 		{
 			let err = new Error('Connection is closed');
 			for (let data of this.queue.waits) {
-				data.cb?.cb && data.cb.cb(err);
-				data.defer && data.defer.reject(err);
+				data.cb?.cb?.(err);
+				data.defer?.reject(err);
 			}
 			for (let data of this.queue.sending) {
-				data.cb?.cb && data.cb.cb(err);
-				data.defer && data.defer.reject(err);
+				data.cb?.cb?.(err);
+				data.defer?.reject(err);
 			}
 			this.queue.waits.length = this.queue.sending.length = 0;
 		}
