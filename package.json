@@ -1,6 +1,6 @@
 {
 	"name": "me-ws",
-	"version": "1.0.2",
+	"version": "1.0.5",
 	"main": "lib/index.js",
 	"scripts": {
 		"build": "tsc"
@@ -10,7 +10,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@types/node": "^22.10.2",
+		"@types/node": "^22.10.5",
 		"@types/ws": "^8.5.13",
 		"typescript": "^5.7.2"
 	}
