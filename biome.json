@@ -1,17 +1,14 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
 	"vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"includes": ["**"]
 	},
-	"organizeImports": {
-		"enabled": true,
-		"include": ["src"]
-	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"formatter": {
 		"enabled": true,
-		"include": ["src"],
+		"includes": ["**/src/**"],
 		"useEditorconfig": true,
 		"formatWithErrors": false,
 		"indentStyle": "tab",
@@ -23,7 +20,7 @@
 	},
 	"linter": {
 		"enabled": true,
-		"include": ["src"],
+		"includes": ["**/src/**"],
 		"rules": {
 			"recommended": true,
 			"complexity": {
